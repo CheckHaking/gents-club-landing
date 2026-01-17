@@ -1,0 +1,353 @@
+---
+import config from '../config.json';
+---
+
+<section id="location" class="location-section">
+  <div class="location-container">
+    <div class="location-content">
+      <div class="content-wrapper">
+        <span class="section-label">Visítanos</span>
+        <h2 class="section-title">
+          En el corazón <br/>
+          <span class="title-accent">de Lerdo</span>
+        </h2>
+
+        <div class="location-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="detail-content">
+              <h3 class="detail-title">Dirección</h3>
+              <p class="detail-text">{config.business.address}</p>
+              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.business.address)}`}
+                 class="detail-link"
+                 target="_blank"
+                 rel="noopener">
+                Ver en Google Maps
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="detail-content">
+              <h3 class="detail-title">Horarios</h3>
+              <p class="detail-text">{config.schedule.weekdays}</p>
+              <p class="detail-hours">{config.schedule.hours}</p>
+              <p class="detail-closed">Domingo: Cerrado</p>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div class="detail-content">
+              <h3 class="detail-title">Contacto</h3>
+              <p class="detail-text">{config.business.phone}</p>
+              <a href={`https://wa.me/${config.business.whatsapp}`}
+                 class="detail-link"
+                 target="_blank"
+                 rel="noopener">
+                WhatsApp
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="location-map">
+      <div class="map-placeholder">
+        <div class="map-overlay">
+          <div class="map-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <p class="map-text">Blvd. Miguel Alemán 356<br/>Lerdo, Durango</p>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.business.address)}`}
+             class="map-button"
+             target="_blank"
+             rel="noopener">
+            Abrir en Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.location-section {
+  position: relative;
+  background: #0f0f0f;
+  overflow: hidden;
+}
+
+.location-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 600px;
+}
+
+.location-content {
+  padding: 6rem 4rem;
+  display: flex;
+  align-items: center;
+}
+
+.content-wrapper {
+  max-width: 500px;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  letter-spacing: 0.2em;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  margin-bottom: 3rem;
+}
+
+.title-accent {
+  background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.detail-item {
+  display: flex;
+  gap: 1.25rem;
+  opacity: 0;
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.detail-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.detail-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.detail-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.detail-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  color: #d4af37;
+}
+
+.detail-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.detail-content {
+  flex: 1;
+}
+
+.detail-title {
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.detail-text {
+  font-size: 1.125rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.detail-hours {
+  font-size: 1rem;
+  color: #a8a8a8;
+  margin-bottom: 0.25rem;
+}
+
+.detail-closed {
+  font-size: 0.875rem;
+  color: #8a8a8a;
+  font-style: italic;
+}
+
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: #d4af37;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.detail-link:hover {
+  gap: 0.75rem;
+  color: #f4e5c3;
+}
+
+.location-map {
+  position: relative;
+  background: #141414;
+}
+
+.map-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zm20.97 0l9.315 9.314-1.414 1.414L34.828 0h2.83zM22.344 0L13.03 9.314l1.414 1.414L25.172 0h-2.83zM32 0l12.142 12.142-1.414 1.414L30 .828 17.272 13.556 15.858 12.14 28 0zm0 28.97L15.858 45.112 14.444 43.7 30 28.142 45.556 43.7l-1.414 1.414L32 28.97zm-7.444 7.778L17.272 44.03 15.858 42.618l9.878-9.878 1.42 1.42zm14.888 0l-1.42 1.41 9.878 9.88-1.414 1.414-9.878-9.878 1.42-1.42zM0 5.373l6.485 6.486 1.414-1.414L0 2.544v2.83zm0 5.656l9.314 9.314 1.414-1.414L0 8.2v2.83zm0 5.656l12.142 12.142 1.414-1.414L0 13.858v2.828zm0 5.657l14.97 14.97 1.414-1.415L0 19.514v2.828zm0 5.656l17.799 17.8 1.414-1.415L0 25.172v2.83zm0 5.657l20.627 20.626 1.414-1.414L0 30.828v2.828zm0 5.657l23.456 23.457 1.414-1.414L0 36.486v2.828zm0 5.657l26.285 26.285 1.414-1.414L0 42.143v2.828zm0 5.657l29.113 29.113 1.414-1.414L0 47.8v2.83zm0 5.656l31.942 31.943 1.414-1.414L0 53.458v2.828zm0 5.657L32 60l-1.414-1.414L0 28.142v2.83zM60 5.373L53.515 11.86l-1.414-1.415L60 2.544v2.83zm0 5.656L50.686 21.03l-1.414-1.415L60 8.2v2.83zm0 5.656L47.858 29.03l-1.414-1.414L60 13.86v2.83zm0 5.657L45.03 34.99l-1.414-1.415L60 19.514v2.83zm0 5.656L42.2 43.8l-1.414-1.415L60 25.172v2.83zm0 5.657L39.373 49.47l-1.414-1.414L60 30.828v2.83zm0 5.657L36.544 55.1l-1.414-1.414L60 36.486v2.83zm0 5.656L33.715 60.73l-1.414-1.414L60 42.143v2.828zm0 5.657L30.886 63.56l-1.414-1.414L60 47.8v2.83zm0 5.656L28.057 66.4l-1.414-1.414L60 53.458v2.828zm0 5.657L25.228 69.23l-1.414-1.414L60 59.114v2.828z' fill='%23d4af37' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.map-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 3rem;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  max-width: 400px;
+}
+
+.map-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  color: #d4af37;
+}
+
+.map-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.map-text {
+  font-size: 1.125rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+  color: #0a0a0a;
+  text-decoration: none;
+  border-radius: 2px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.map-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(212, 175, 55, 0.4);
+}
+
+@media (max-width: 1024px) {
+  .location-container {
+    grid-template-columns: 1fr;
+  }
+
+  .location-content {
+    padding: 5rem 2rem;
+  }
+
+  .location-map {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .location-content {
+    padding: 4rem 1.5rem;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .map-overlay {
+    padding: 2rem;
+    margin: 1rem;
+  }
+}
+</style>

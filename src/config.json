@@ -1,0 +1,97 @@
+{
+  "business": {
+    "name": "Gents Club",
+    "address": "Blvd. Miguel Alemán 356 Lerdo",
+    "phone": "+52 1 871 123 4567",
+    "whatsapp": "5218711234567"
+  },
+  "services": [
+    {
+      "id": "corte",
+      "name": "Corte",
+      "price": 200,
+      "description": "Corte de cabello profesional con estilo",
+      "icon": "scissors"
+    },
+    {
+      "id": "corte-barba",
+      "name": "Corte + Barba",
+      "price": 350,
+      "description": "Servicio completo de corte y arreglo de barba",
+      "icon": "razor"
+    },
+    {
+      "id": "afeitado",
+      "name": "Afeitado",
+      "price": 150,
+      "description": "Afeitado clásico con toalla caliente",
+      "icon": "shave"
+    }
+  ],
+  "schedule": {
+    "weekdays": "Lunes - Sábado",
+    "hours": "9:00 AM - 8:00 PM",
+    "sunday": "Cerrado"
+  },
+  "gallery": [
+    {
+      "id": 1,
+      "image": "/images/corte-1.jpg",
+      "alt": "Fade clásico con degradado bajo",
+      "category": "Corte"
+    },
+    {
+      "id": 2,
+      "image": "/images/corte-2.jpg",
+      "alt": "Corte moderno con textura",
+      "category": "Corte"
+    },
+    {
+      "id": 3,
+      "image": "/images/barba-1.jpg",
+      "alt": "Arreglo de barba con diseño",
+      "category": "Barba"
+    },
+    {
+      "id": 4,
+      "image": "/images/corte-3.jpg",
+      "alt": "Pompadour clásico",
+      "category": "Corte"
+    },
+    {
+      "id": 5,
+      "image": "/images/barba-2.jpg",
+      "alt": "Barba completa estilo vintage",
+      "category": "Barba"
+    },
+    {
+      "id": 6,
+      "image": "/images/corte-4.jpg",
+      "alt": "Undercut con volumen",
+      "category": "Corte"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Carlos Mendoza",
+      "rating": 5,
+      "text": "El mejor lugar para un corte en Lerdo. Atención profesional y ambiente increíble.",
+      "service": "Corte + Barba"
+    },
+    {
+      "id": 2,
+      "name": "Roberto Sánchez",
+      "rating": 5,
+      "text": "Llevo años viniendo aquí. Nunca me han decepcionado. Totalmente recomendado.",
+      "service": "Corte"
+    },
+    {
+      "id": 3,
+      "name": "Luis Torres",
+      "rating": 5,
+      "text": "Excelente servicio y gran atención al detalle. El afeitado clásico es una experiencia única.",
+      "service": "Afeitado Clásico"
+    }
+  ]
+}

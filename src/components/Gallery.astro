@@ -1,0 +1,188 @@
+---
+import config from '../config.json';
+---
+
+<section id="gallery" class="gallery-section">
+  <div class="gallery-container">
+    <div class="gallery-header">
+      <span class="section-badge">PORTAFOLIO</span>
+      <h2 class="gallery-title">Nuestro Trabajo</h2>
+      <p class="gallery-subtitle">
+        Cada corte es una obra de arte. Descubre algunos de nuestros mejores trabajos.
+      </p>
+    </div>
+
+    <div class="gallery-grid">
+      {config.gallery.map((item) => (
+        <div class="gallery-item">
+          <div class="gallery-image-wrapper">
+            <img
+              src={item.image}
+              alt={item.alt}
+              class="gallery-image"
+              loading="lazy"
+            />
+            <div class="gallery-overlay">
+              <span class="gallery-category">{item.category}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Placeholder para imágenes -->
+    <div class="gallery-note">
+      <p>💡 <strong>Nota:</strong> Coloca tus imágenes en <code>/public/images/</code></p>
+      <p>Las imágenes actuales son placeholders. Reemplázalas con fotos reales de tus trabajos.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery-section {
+    padding: 8rem 2rem;
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+    position: relative;
+  }
+
+  .gallery-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #d4af37;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 2rem;
+    background: rgba(212, 175, 55, 0.05);
+  }
+
+  .gallery-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .gallery-subtitle {
+    font-size: 1.125rem;
+    color: #a8a8a8;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    aspect-ratio: 4 / 5;
+    background: #1a1a1a;
+  }
+
+  .gallery-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  .gallery-category {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #d4af37;
+    text-transform: uppercase;
+  }
+
+  .gallery-note {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 0.5rem;
+    margin-top: 3rem;
+  }
+
+  .gallery-note p {
+    color: #a8a8a8;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+  }
+
+  .gallery-note code {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-section {
+      padding: 4rem 1.5rem;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-header {
+      margin-bottom: 3rem;
+    }
+  }
+</style>
