@@ -24,8 +24,11 @@ WORKDIR /app
 # Copy built files from builder
 COPY --from=builder /app/dist ./dist
 
+# Copy server script
+COPY server.js ./
+
 # Expose port
 EXPOSE 3000
 
-# Start the server - listen on 0.0.0.0 for Docker
-CMD ["npx", "serve", "dist", "-l", "tcp://0.0.0.0:3000", "--single"]
+# Start the server
+CMD ["node", "server.js"]
