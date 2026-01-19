@@ -21,14 +21,11 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Install serve globally
-RUN npm install -g serve
-
 # Copy built files from builder
 COPY --from=builder /app/dist ./dist
 
 # Expose port
 EXPOSE 3000
 
-# Start the server
-CMD ["serve", "dist", "-l", "3000"]
+# Start the server - listen on 0.0.0.0 for Docker
+CMD ["npx", "serve", "dist", "-l", "tcp://0.0.0.0:3000", "--single"]
