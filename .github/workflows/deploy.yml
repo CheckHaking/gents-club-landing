@@ -1,0 +1,92 @@
+name: Deploy to Oracle Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build project
+        run: npm run build
+
+      - name: 📊 Build info
+        run: |
+          echo "Build completed successfully"
+          ls -lah dist/
+          du -sh dist/
+
+      - name: 🔑 Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy to server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/home/sergioantunez/apps/gents-club-landing' }}
+        run: |
+          # Create deploy directory if it doesn't exist
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST \
+            "mkdir -p $DEPLOY_PATH"
+
+          # Backup current version
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST \
+            "[ -d $DEPLOY_PATH/dist ] && mv $DEPLOY_PATH/dist $DEPLOY_PATH/dist.backup-$(date +%s) || true"
+
+          # Upload new build
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
+            dist/ $SSH_USER@$SSH_HOST:$DEPLOY_PATH/dist/
+
+          # Upload package files for potential server-side needs
+          scp -i ~/.ssh/deploy_key -P $SSH_PORT \
+            package.json $SSH_USER@$SSH_HOST:$DEPLOY_PATH/
+
+          echo "✅ Deploy completed successfully"
+
+      - name: 🔄 Restart service (if using PM2)
+        continue-on-error: true
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST \
+            "command -v pm2 >/dev/null 2>&1 && pm2 restart gents-club || echo 'PM2 not installed, skipping restart'"
+
+      - name: 🧹 Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key
+
+      - name: 📢 Deployment summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Server:** ${{ secrets.SSH_HOST }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **User:** ${{ secrets.SSH_USER }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Path:** ${{ secrets.DEPLOY_PATH || '/home/sergioantunez/apps/gents-club-landing' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
