@@ -8,29 +8,36 @@
   "services": [
     {
       "id": "corte",
-      "name": "Corte",
+      "name": "Corte Clásico y Moderno",
       "price": 200,
-      "description": "Corte de cabello profesional con estilo",
+      "description": "Corte de cabello profesional, estilo clásico o moderno según tu preferencia",
       "icon": "scissors"
     },
     {
-      "id": "corte-barba",
-      "name": "Corte + Barba",
-      "price": 350,
-      "description": "Servicio completo de corte y arreglo de barba",
+      "id": "delineado-barba",
+      "name": "Delineado de Barba",
+      "price": 200,
+      "description": "Arreglo y delineado profesional de barba con navaja",
       "icon": "razor"
     },
     {
       "id": "afeitado",
-      "name": "Afeitado",
+      "name": "Afeitado de Barba",
       "price": 150,
-      "description": "Afeitado clásico con toalla caliente",
+      "description": "Afeitado completo con toalla caliente y productos premium",
       "icon": "shave"
+    },
+    {
+      "id": "limpieza-ceja",
+      "name": "Limpieza de Ceja",
+      "price": 50,
+      "description": "Arreglo y limpieza de cejas con detalle preciso",
+      "icon": "brow"
     }
   ],
   "schedule": {
     "weekdays": "Lunes - Sábado",
-    "hours": "9:00 AM - 8:00 PM",
+    "hours": "10:00 AM - 8:00 PM",
     "sunday": "Cerrado"
   },
   "gallery": [
