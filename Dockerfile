@@ -13,7 +13,8 @@ RUN npm ci --only=production=false
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the application (cache bust: force fresh Directus data fetch)
+ARG CACHE_BUST=1
 RUN npm run build
 
 # Production stage - serve with Node.js
