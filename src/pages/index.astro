@@ -4,76 +4,135 @@ import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
 import Gallery from '../components/Gallery.astro';
 import Testimonials from '../components/Testimonials.astro';
+import Barbers from '../components/Barbers.astro';
 import Location from '../components/Location.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
-import config from '../config.json';
+import { getBusinessInfo } from '../lib/directus';
+
+const business = await getBusinessInfo();
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={`${config.business.name} - Barbería premium en ${config.business.address}. Corte de cabello, barba y afeitado clásico.`} />
+    <meta name="description" content={`${business.name} - Barbería y Peluquería premium en ${business.address}. Corte de cabello, barba y afeitado clásico. Desde 2011.`} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" as="style" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" />
-    </noscript>
-
-    <!-- SEO Meta Tags -->
     <meta name="robots" content="index, follow" />
-    <meta name="author" content={config.business.name} />
-    <meta name="keywords" content="barbería, corte de cabello, barba, afeitado, Lerdo, barbería premium, Gents Club" />
+    <meta name="author" content={business.name} />
+    <meta name="keywords" content="barbería, peluquería, corte de cabello, barba, afeitado, Lerdo, Gents Club" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${config.business.name} - Barbería Premium`} />
-    <meta property="og:description" content="Experimenta el arte del corte clásico con técnicas modernas" />
-    <meta property="og:site_name" content={config.business.name} />
+    <meta property="og:title" content={`${business.name} - Barbería y Peluquería Premium`} />
+    <meta property="og:description" content="Donde el estilo se encuentra con la tradición. Desde 2011." />
+    <meta property="og:site_name" content={business.name} />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${config.business.name} - Barbería Premium`} />
-    <meta name="twitter:description" content="Experimenta el arte del corte clásico con técnicas modernas" />
-
-    <!-- Theme Color -->
     <meta name="theme-color" content="#0a0a0a" />
+    <link rel="canonical" href="https://gentsclub-gents-club-landing.eamwzl.easypanel.host/" />
 
-    <title>{config.business.name} - Barbería Premium en Lerdo</title>
+    <title>{business.name} - Barbería Premium en Lerdo</title>
 
-    <!-- Inline Critical CSS for LCP optimization -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BarberShop",
+      "name": business.name,
+      "description": `${business.subtitle} premium en Lerdo, Durango. Corte de cabello, barba y afeitado clasico. Desde 2011.`,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": business.address,
+        "addressLocality": "Lerdo",
+        "addressRegion": "Durango",
+        "addressCountry": "MX"
+      },
+      "telephone": business.phone,
+      "openingHours": ["Mo-Sa 10:00-20:00"],
+      "priceRange": "$$",
+      "foundingDate": "2011",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "3",
+        "bestRating": "5"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de barberia",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Corte Clasico y Moderno", "serviceType": "Corte de cabello"}, "price": "200", "priceCurrency": "MXN"},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Delineado de Barba", "serviceType": "Arreglo de barba"}, "price": "200", "priceCurrency": "MXN"},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Afeitado de Barba", "serviceType": "Afeitado"}, "price": "150", "priceCurrency": "MXN"},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Limpieza de Ceja", "serviceType": "Cuidado facial"}, "price": "50", "priceCurrency": "MXN"}
+        ]
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".hero-title", ".hero-tagline", ".hero-description"]
+      }
+    })} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Donde esta ubicada la barberia Gents Club en Lerdo?",
+          "acceptedAnswer": {"@type": "Answer", "text": `${business.name} esta ubicada en ${business.address}, Durango, Mexico. Horario: ${business.weekdays} de ${business.hours}.`}
+        },
+        {
+          "@type": "Question",
+          "name": "Cuanto cuesta un corte de cabello en Gents Club?",
+          "acceptedAnswer": {"@type": "Answer", "text": "El corte clasico y moderno tiene un precio de $200 MXN. Tambien ofrecemos delineado de barba ($200), afeitado ($150) y limpieza de ceja ($50)."}
+        },
+        {
+          "@type": "Question",
+          "name": "Cual es el horario de Gents Club Lerdo?",
+          "acceptedAnswer": {"@type": "Answer", "text": `Atendemos de ${business.weekdays} en horario de ${business.hours}. Domingos cerrado.`}
+        },
+        {
+          "@type": "Question",
+          "name": "Como puedo agendar en Gents Club?",
+          "acceptedAnswer": {"@type": "Answer", "text": `Puedes contactarnos por WhatsApp o visitarnos directamente en ${business.address}. No necesitas cita, atendemos por orden de llegada.`}
+        }
+      ]
+    })} />
+
     <style>
-      /* Critical CSS for above-the-fold content */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      :root {
+        --bg-primary: #0A0A0A;
+        --bg-secondary: #111111;
+        --bg-card: #151515;
+        --gold: #D4AF37;
+        --gold-light: #F4E5C3;
+        --gold-dark: #B8941E;
+        --ivory: #FAEBD7;
+        --text-primary: #FFFFFF;
+        --text-secondary: #B0B0B0;
+        --text-muted: #707070;
+        --border: rgba(212, 175, 55, 0.12);
+        --border-hover: rgba(212, 175, 55, 0.35);
+        --glow: rgba(212, 175, 55, 0.15);
       }
 
-      html {
-        scroll-behavior: smooth;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: #0a0a0a;
-        color: #ffffff;
+        font-family: 'Montserrat', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         overflow-x: hidden;
       }
 
-      /* Prevent layout shift */
       .hero-section {
         min-height: 100vh;
         contain: layout style paint;
@@ -81,131 +140,213 @@ import config from '../config.json';
     </style>
   </head>
   <body>
+    <!-- NAV -->
+    <nav class="nav">
+      <a href="/" class="nav-logo">GENT'S <span>CLUB</span></a>
+      <button class="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#gallery">Galería</a></li>
+        <li><a href="#barbers">Barberos</a></li>
+        <li><a href="#testimonials">Opiniones</a></li>
+        <li><a href="#location">Ubicación</a></li>
+        <li><a href={`https://wa.me/${business.whatsapp}`} class="nav-cta" target="_blank" rel="noopener">Agendar Cita</a></li>
+      </ul>
+    </nav>
+    <script>
+      const toggle = document.querySelector('.nav-toggle');
+      const links = document.querySelector('.nav-links');
+      toggle?.addEventListener('click', () => {
+        links?.classList.toggle('open');
+        toggle.classList.toggle('active');
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          links?.classList.remove('open');
+          toggle?.classList.remove('active');
+        });
+      });
+    </script>
+
     <main>
-      <Hero />
+      <Hero business={business} />
       <Services />
       <Gallery />
+      <Barbers />
       <Testimonials />
-      <Location />
+      <Location business={business} />
     </main>
 
-    <WhatsAppButton />
+    <WhatsAppButton whatsapp={business.whatsapp} />
 
     <footer class="footer">
       <div class="footer-content">
-        <div class="footer-brand">
-          <h3 class="footer-title">GENTS CLUB</h3>
-          <p class="footer-tagline">Donde el estilo se encuentra con la tradición</p>
-        </div>
-
+        <div class="footer-logo">GENT'S CLUB</div>
+        <p class="footer-sub">Barbería y Peluquería &bull; Desde 2011</p>
+        <p class="footer-tagline">Donde el estilo se encuentra con la tradición</p>
         <div class="footer-divider"></div>
-
-        <div class="footer-info">
-          <p>&copy; {new Date().getFullYear()} {config.business.name}. Todos los derechos reservados.</p>
-          <p class="footer-address">{config.business.address}</p>
-        </div>
+        <p class="footer-copy">&copy; {new Date().getFullYear()} {business.name}. Todos los derechos reservados. &bull; {business.address}</p>
       </div>
     </footer>
 
     <style>
-      .footer {
-        background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
-        padding: 4rem 2rem 2rem;
-        border-top: 1px solid rgba(212, 175, 55, 0.1);
+      .nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        padding: 1.25rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(10, 10, 10, 0.88);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
       }
 
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
+      .nav-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .nav-logo span {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover { color: var(--gold); }
+
+      .nav-cta {
+        padding: 0.6rem 1.5rem !important;
+        border: 1px solid var(--gold) !important;
+        color: var(--gold) !important;
+        transition: all 0.3s !important;
+      }
+
+      .nav-cta:hover {
+        background: var(--gold) !important;
+        color: var(--bg-primary) !important;
+      }
+
+      .footer {
+        padding: 4rem 2rem 2rem;
+        background: var(--bg-primary);
+        border-top: 1px solid var(--border);
         text-align: center;
       }
 
-      .footer-brand {
-        margin-bottom: 2rem;
-      }
+      .footer-content { max-width: 1200px; margin: 0 auto; }
 
-      .footer-title {
+      .footer-logo {
         font-family: 'Playfair Display', serif;
         font-size: 2rem;
-        font-weight: 700;
+        font-weight: 900;
         letter-spacing: 0.1em;
-        background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin-bottom: 0.5rem;
       }
 
+      .footer-sub {
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.5rem;
+      }
+
       .footer-tagline {
-        font-size: 0.875rem;
-        color: #a8a8a8;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1rem;
+        color: var(--text-secondary);
         font-style: italic;
       }
 
       .footer-divider {
-        width: 100px;
+        width: 80px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
         margin: 2rem auto;
       }
 
-      .footer-info {
-        font-size: 0.875rem;
-        color: #8a8a8a;
+      .footer-copy { font-size: 0.8rem; color: var(--text-muted); }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        flex-direction: column;
+        gap: 5px;
       }
 
-      .footer-info p {
-        margin-bottom: 0.5rem;
+      .nav-toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--gold);
+        transition: all 0.3s;
       }
 
-      .footer-address {
-        color: #a8a8a8;
+      .nav-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
       }
 
       @media (max-width: 768px) {
-        .footer {
-          padding: 3rem 1.5rem 1.5rem;
+        .nav { padding: 1rem 1.5rem; }
+        .nav-toggle { display: flex; }
+        .nav-links {
+          display: none;
+          position: fixed;
+          top: 60px; left: 0; right: 0;
+          background: rgba(10, 10, 10, 0.95);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          padding: 2rem;
+          gap: 1.5rem;
+          border-bottom: 1px solid var(--border);
         }
-
-        .footer-title {
-          font-size: 1.5rem;
-        }
+        .nav-links.open { display: flex; }
+        .nav-links a { font-size: 1rem; }
+        .nav-cta { text-align: center; width: 100%; display: block !important; }
+        .footer { padding: 3rem 1.5rem 1.5rem; }
+        .footer-logo { font-size: 1.5rem; }
       }
     </style>
-
-    <!-- Performance monitoring script (non-blocking) -->
-    <script>
-      // Report Web Vitals for monitoring
-      if ('PerformanceObserver' in window) {
-        // Monitor LCP
-        const lcpObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          console.log('LCP:', lastEntry.renderTime || lastEntry.loadTime);
-        });
-        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-
-        // Monitor FID
-        const fidObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach((entry) => {
-            console.log('FID:', entry.processingStart - entry.startTime);
-          });
-        });
-        fidObserver.observe({ entryTypes: ['first-input'] });
-
-        // Monitor CLS
-        let clsValue = 0;
-        const clsObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
-              console.log('CLS:', clsValue);
-            }
-          }
-        });
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
-      }
-    </script>
   </body>
 </html>
