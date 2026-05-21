@@ -1,22 +1,24 @@
 ---
 import '../styles/global.css';
 import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
 import Services from '../components/Services.astro';
 import Gallery from '../components/Gallery.astro';
 import Testimonials from '../components/Testimonials.astro';
-import Barbers from '../components/Barbers.astro';
+import BookingFlow from '../components/BookingFlow.astro';
+import GooglePresence from '../components/GooglePresence.astro';
 import Location from '../components/Location.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
-import { getBusinessInfo } from '../lib/directus';
+import { siteContent } from '../data/site';
 
-const business = await getBusinessInfo();
+const { business, about, services, gallery, testimonials, amenities, booking } = siteContent;
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={`${business.name} - Barbería y Peluquería premium en ${business.address}. Corte de cabello, barba y afeitado clásico. Desde 2011.`} />
+    <meta name="description" content={`${business.name} - Barberia premium en ${business.city}. Agenda tu cita por WhatsApp con ${business.owner}.`} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -27,23 +29,23 @@ const business = await getBusinessInfo();
 
     <meta name="robots" content="index, follow" />
     <meta name="author" content={business.name} />
-    <meta name="keywords" content="barbería, peluquería, corte de cabello, barba, afeitado, Lerdo, Gents Club" />
+    <meta name="keywords" content="barberia, peluqueria, corte de cabello, barba, afeitado, Lerdo, Gents Club, Charly" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${business.name} - Barbería y Peluquería Premium`} />
-    <meta property="og:description" content="Donde el estilo se encuentra con la tradición. Desde 2011." />
+    <meta property="og:description" content="Una barberia enfocada en la atencion directa, agenda por WhatsApp y experiencia premium." />
     <meta property="og:site_name" content={business.name} />
 
     <meta name="theme-color" content="#0a0a0a" />
     <link rel="canonical" href="https://gentsclub-gents-club-landing.eamwzl.easypanel.host/" />
 
-    <title>{business.name} - Barbería Premium en Lerdo</title>
+    <title>{business.name} - Barberia Premium en {business.city}</title>
 
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "BarberShop",
       "name": business.name,
-      "description": `${business.subtitle} premium en Lerdo, Durango. Corte de cabello, barba y afeitado clasico. Desde 2011.`,
+      "description": `${business.subtitle}. Agenda por WhatsApp con ${business.owner} en ${business.city}.`,
       "address": {
         "@type": "PostalAddress",
         "streetAddress": business.address,
@@ -52,24 +54,23 @@ const business = await getBusinessInfo();
         "addressCountry": "MX"
       },
       "telephone": business.phone,
-      "openingHours": ["Mo-Sa 10:00-20:00"],
+      "openingHours": ["Mo-Sa 11:00-20:00"],
+      "sameAs": [business.instagramUrl],
       "priceRange": "$$",
-      "foundingDate": "2011",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": "3",
-        "bestRating": "5"
-      },
+      "foundingDate": business.founded,
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Servicios de barberia",
-        "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Corte Clasico y Moderno", "serviceType": "Corte de cabello"}, "price": "200", "priceCurrency": "MXN"},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Delineado de Barba", "serviceType": "Arreglo de barba"}, "price": "200", "priceCurrency": "MXN"},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Afeitado de Barba", "serviceType": "Afeitado"}, "price": "150", "priceCurrency": "MXN"},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Limpieza de Ceja", "serviceType": "Cuidado facial"}, "price": "50", "priceCurrency": "MXN"}
-        ]
+        "itemListElement": services.map((service) => ({
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": service.name,
+            "serviceType": service.name
+          },
+          "price": String(service.price),
+          "priceCurrency": "MXN"
+        }))
       },
       "speakable": {
         "@type": "SpeakableSpecification",
@@ -84,12 +85,12 @@ const business = await getBusinessInfo();
         {
           "@type": "Question",
           "name": "Donde esta ubicada la barberia Gents Club en Lerdo?",
-          "acceptedAnswer": {"@type": "Answer", "text": `${business.name} esta ubicada en ${business.address}, Durango, Mexico. Horario: ${business.weekdays} de ${business.hours}.`}
+          "acceptedAnswer": {"@type": "Answer", "text": `${business.name} esta ubicada en ${business.address}. Horario: ${business.weekdays} de ${business.hours}.`}
         },
         {
           "@type": "Question",
           "name": "Cuanto cuesta un corte de cabello en Gents Club?",
-          "acceptedAnswer": {"@type": "Answer", "text": "El corte clasico y moderno tiene un precio de $200 MXN. Tambien ofrecemos delineado de barba ($200), afeitado ($150) y limpieza de ceja ($50)."}
+          "acceptedAnswer": {"@type": "Answer", "text": "El corte clasico y moderno tiene un precio desde $200 MXN. Los precios finales pueden variar segun el servicio solicitado."}
         },
         {
           "@type": "Question",
@@ -99,7 +100,7 @@ const business = await getBusinessInfo();
         {
           "@type": "Question",
           "name": "Como puedo agendar en Gents Club?",
-          "acceptedAnswer": {"@type": "Answer", "text": `Puedes contactarnos por WhatsApp o visitarnos directamente en ${business.address}. No necesitas cita, atendemos por orden de llegada.`}
+          "acceptedAnswer": {"@type": "Answer", "text": `Puedes escribir por WhatsApp para revisar horarios disponibles y confirmar tu cita directamente con ${business.owner}.`}
         }
       ]
     })} />
@@ -115,14 +116,23 @@ const business = await getBusinessInfo();
         --ivory: #FAEBD7;
         --text-primary: #FFFFFF;
         --text-secondary: #B0B0B0;
-        --text-muted: #707070;
+        --text-muted: #8A8A8A;
         --border: rgba(212, 175, 55, 0.12);
         --border-hover: rgba(212, 175, 55, 0.35);
         --glow: rgba(212, 175, 55, 0.15);
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
 
       body {
         font-family: 'Montserrat', sans-serif;
@@ -143,14 +153,15 @@ const business = await getBusinessInfo();
     <!-- NAV -->
     <nav class="nav">
       <a href="/" class="nav-logo">GENT'S <span>CLUB</span></a>
-      <button class="nav-toggle" aria-label="Menu">
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="primary-nav">
         <span></span><span></span><span></span>
       </button>
-      <ul class="nav-links">
+      <ul id="primary-nav" class="nav-links">
         <li><a href="#services">Servicios</a></li>
+        <li><a href="#about">Sobre Charly</a></li>
         <li><a href="#gallery">Galería</a></li>
-        <li><a href="#barbers">Barberos</a></li>
         <li><a href="#testimonials">Opiniones</a></li>
+        <li><a href="#agendar">Cómo agendar</a></li>
         <li><a href="#location">Ubicación</a></li>
         <li><a href={`https://wa.me/${business.whatsapp}`} class="nav-cta" target="_blank" rel="noopener">Agendar Cita</a></li>
       </ul>
@@ -158,24 +169,33 @@ const business = await getBusinessInfo();
     <script>
       const toggle = document.querySelector('.nav-toggle');
       const links = document.querySelector('.nav-links');
+      const setExpanded = (open) => {
+        toggle?.setAttribute('aria-expanded', String(open));
+        toggle?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      };
       toggle?.addEventListener('click', () => {
+        const willOpen = !links?.classList.contains('open');
         links?.classList.toggle('open');
         toggle.classList.toggle('active');
+        setExpanded(willOpen);
       });
       document.querySelectorAll('.nav-links a').forEach(a => {
         a.addEventListener('click', () => {
           links?.classList.remove('open');
           toggle?.classList.remove('active');
+          setExpanded(false);
         });
       });
     </script>
 
     <main>
       <Hero business={business} />
-      <Services />
-      <Gallery />
-      <Barbers />
-      <Testimonials />
+      <About about={about} business={business} />
+      <Services services={services} whatsapp={business.whatsapp} />
+      <Gallery gallery={gallery} />
+      <Testimonials testimonials={testimonials} whatsapp={business.whatsapp} />
+      <BookingFlow booking={booking} whatsapp={business.whatsapp} owner={business.owner} />
+      <GooglePresence business={business} amenities={amenities} />
       <Location business={business} />
     </main>
 
@@ -184,10 +204,20 @@ const business = await getBusinessInfo();
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-logo">GENT'S CLUB</div>
-        <p class="footer-sub">Barbería y Peluquería &bull; Desde 2011</p>
-        <p class="footer-tagline">Donde el estilo se encuentra con la tradición</p>
+        <p class="footer-sub">Barbería clásica en Lerdo &bull; Desde {business.founded}</p>
+        <p class="footer-tagline">Citas directas con {business.owner} por WhatsApp.</p>
+        {business.instagramUrl && (
+          <a class="footer-social" href={business.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram @${business.instagram}`}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>@{business.instagram}</span>
+          </a>
+        )}
         <div class="footer-divider"></div>
-        <p class="footer-copy">&copy; {new Date().getFullYear()} {business.name}. Todos los derechos reservados. &bull; {business.address}</p>
+        <p class="footer-copy">&copy; {new Date().getFullYear()} {business.name}. Todos los derechos reservados.</p>
       </div>
     </footer>
 
@@ -286,6 +316,25 @@ const business = await getBusinessInfo();
         font-size: 1rem;
         color: var(--text-secondary);
         font-style: italic;
+      }
+
+      .footer-social {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.55rem 1rem;
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        color: var(--gold);
+        text-decoration: none;
+        font-size: 0.82rem;
+        letter-spacing: 0.05em;
+        transition: border-color 0.3s ease, color 0.3s ease;
+      }
+
+      .footer-social:hover {
+        border-color: var(--gold);
+        color: var(--gold-light);
       }
 
       .footer-divider {

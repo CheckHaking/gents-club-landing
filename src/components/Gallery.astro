@@ -1,38 +1,42 @@
 ---
-import { getGallery, getGalleryImageUrl } from '../lib/directus';
-const gallery = await getGallery();
+const { gallery } = Astro.props;
 ---
 
 <section id="gallery" class="gallery-section">
   <div class="gallery-inner">
     <div class="gallery-header">
       <div class="section-label">Portafolio</div>
-      <h2 class="section-title">Nuestro <span class="accent">Trabajo</span></h2>
-      <p class="section-subtitle">Cada corte es una obra de arte. Precisión y estilo en cada detalle.</p>
+      <h2 class="section-title">Cortes que hablan <span class="accent">por sí solos</span></h2>
+      <p class="section-subtitle">Cuatro trabajos recientes de Charly que resumen el nivel de detalle de la casa.</p>
     </div>
-    <div class="gallery-grid">
-      {gallery.length > 0 ? (
-        gallery.map((item: any) => (
-          <div class="gallery-item">
+
+    {gallery.length > 0 ? (
+      <div class="gallery-grid">
+        {gallery.map((item: any) => (
+          <figure class="gallery-item">
             <div class="gallery-image-wrapper">
               <img
-                src={getGalleryImageUrl(item.image)}
-                alt={item.alt || ''}
-                class="gallery-image"
+                src={item.image}
+                alt={item.alt || `${item.title} - trabajo de Charly en Gent's Club`}
+                width="640"
+                height="800"
                 loading="lazy"
+                decoding="async"
               />
               <div class="gallery-overlay">
                 <span class="gallery-tag">{item.category}</span>
+                <h3 class="gallery-title">{item.title}</h3>
+                <p class="gallery-copy">{item.caption}</p>
               </div>
             </div>
-          </div>
-        ))
-      ) : (
-        <div class="gallery-empty">
-          <p>Sube fotos desde el <a href="https://gentsclub-admin.eamwzl.easypanel.host/admin/content/galeria" target="_blank">panel de admin</a></p>
-        </div>
-      )}
-    </div>
+          </figure>
+        ))}
+      </div>
+    ) : (
+      <div class="gallery-empty">
+        <p>La galería se actualizará con trabajos recientes de Charly.</p>
+      </div>
+    )}
   </div>
 </section>
 
@@ -42,7 +46,7 @@ const gallery = await getGallery();
     background: #111111;
   }
 
-  .gallery-inner { max-width: 1400px; margin: 0 auto; }
+  .gallery-inner { max-width: 1300px; margin: 0 auto; }
   .gallery-header { text-align: center; margin-bottom: 4rem; }
 
   .section-label {
@@ -68,66 +72,111 @@ const gallery = await getGallery();
   }
 
   .section-subtitle {
-    font-size: 1.05rem; color: #B0B0B0; max-width: 550px;
+    font-size: 1.05rem; color: #B0B0B0; max-width: 560px;
     margin: 0 auto; line-height: 1.7; font-weight: 300;
   }
 
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 320px);
-    gap: 1.25rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
   }
 
   .gallery-item {
-    position: relative; overflow: hidden; background: #151515; cursor: pointer;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background: #151515;
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    transition: border-color 0.3s ease, transform 0.3s ease;
   }
 
-  .gallery-item:first-child { grid-row: span 2; }
+  .gallery-item:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+  }
 
   .gallery-image-wrapper {
-    position: relative; width: 100%; height: 100%; overflow: hidden;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
   }
 
-  .gallery-image {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  .gallery-image-wrapper img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s ease;
+    filter: saturate(0.92) contrast(1.03);
   }
 
-  .gallery-item:hover .gallery-image { transform: scale(1.05); }
+  .gallery-item:hover img {
+    transform: scale(1.04);
+  }
 
   .gallery-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
-    display: flex; align-items: flex-end; padding: 2rem;
-    opacity: 0; transition: opacity 0.4s;
+    position: absolute;
+    inset: 0;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.92) 100%);
+    color: #f0ebe1;
   }
 
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-
   .gallery-tag {
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: #d4af37; font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #d4af37;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.55rem;
+  }
+
+  .gallery-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: #ffffff;
+  }
+
+  .gallery-copy {
+    color: #d6d2c6;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    max-width: 30ch;
   }
 
   .gallery-empty {
-    grid-column: 1 / -1;
     text-align: center; padding: 4rem;
     background: rgba(212, 175, 55, 0.05);
     border: 1px dashed rgba(212, 175, 55, 0.2);
+    color: #b0b0b0;
   }
 
-  .gallery-empty p { color: #707070; }
-  .gallery-empty a { color: #d4af37; }
-
-  @media (max-width: 1024px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
-    .gallery-item:first-child { grid-row: span 1; }
+  @media (max-width: 1100px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 768px) {
     .gallery-section { padding: 5rem 1.5rem; }
-    .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-    .gallery-item { aspect-ratio: 4/5; }
+    .gallery-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .gallery-image-wrapper { aspect-ratio: 4 / 5; }
+    .gallery-copy { font-size: 0.92rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-item,
+    .gallery-image-wrapper img { transition: none !important; }
+    .gallery-item:hover { transform: none; }
+    .gallery-item:hover img { transform: none; }
   }
 </style>

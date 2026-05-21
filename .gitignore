@@ -22,3 +22,13 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local backups
+*.bak
+
+# local tooling / sessions
+.playwright-cli/
+firebase-debug.log
+
+# misc captures dropped here from other projects
+wedding-*.png

@@ -1,0 +1,261 @@
+---
+const { about, business = {} } = Astro.props;
+---
+
+<section id="about" class="about-section">
+  <div class="about-shell">
+    <div class="about-copy">
+      <div class="section-label">{about.badge}</div>
+      <h2 class="section-title">{about.title}</h2>
+      <div class="about-text">
+        {about.paragraphs.map((paragraph: string) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+      {about.bio && (
+        <blockquote class="about-quote">
+          <p>{about.bio}</p>
+          <cite>— Charly Cortez</cite>
+        </blockquote>
+      )}
+      <div class="about-stats">
+        {about.stats.map((item: { label: string; value: string }) => (
+          <div class="stat-card">
+            <div class="stat-value">{item.value}</div>
+            <div class="stat-label">{item.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <figure class="about-portrait">
+      <div class="portrait-frame">
+        <img
+          src="/images/charly/charly.jpg"
+          alt="Charly Cortez, barbero principal de Gent's Club"
+          width="720"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <figcaption class="portrait-caption">
+        <span class="portrait-name">Charly Cortez</span>
+        <span class="portrait-role">{business.specialty || "Cortes clásicos y modernos para caballero"}</span>
+        {business.instagramUrl && (
+          <a class="portrait-social" href={business.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram @${business.instagram}`}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>@{business.instagram}</span>
+          </a>
+        )}
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: 8rem 2rem;
+    background:
+      radial-gradient(circle at top right, rgba(212, 175, 55, 0.09), transparent 32%),
+      linear-gradient(180deg, #0f0f0f 0%, #090909 100%);
+  }
+
+  .about-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: #d4af37;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::before,
+  .section-label::after {
+    content: "";
+    width: 25px;
+    height: 1px;
+    background: #d4af37;
+  }
+
+  .section-title {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 16ch;
+    margin-bottom: 1.75rem;
+  }
+
+  .about-text {
+    display: grid;
+    gap: 1.1rem;
+    max-width: 56ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-text p {
+    color: #b0b0b0;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .about-quote {
+    margin: 0 0 2.5rem;
+    padding: 1.5rem 1.6rem;
+    border-left: 2px solid rgba(212, 175, 55, 0.5);
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.06), transparent 75%);
+    max-width: 56ch;
+  }
+
+  .about-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: #f4e5c3;
+    font-style: italic;
+    margin-bottom: 0.65rem;
+  }
+
+  .about-quote cite {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #d4af37;
+    font-style: normal;
+  }
+
+  .portrait-social {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+  }
+
+  .portrait-social:hover { color: #f4e5c3; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 420px;
+  }
+
+  .stat-card {
+    padding: 1.15rem 1.25rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.14);
+  }
+
+  .stat-value {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #d4af37;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    color: #b0b0b0;
+    font-size: 0.88rem;
+    letter-spacing: 0.03em;
+  }
+
+  .about-portrait {
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+    justify-items: start;
+  }
+
+  .portrait-frame {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    background: #111;
+  }
+
+  .portrait-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%);
+    pointer-events: none;
+  }
+
+  .portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: saturate(0.92) contrast(1.02);
+  }
+
+  .portrait-caption {
+    display: grid;
+    gap: 0.25rem;
+    padding-left: 0.1rem;
+  }
+
+  .portrait-name {
+    font-family: "Playfair Display", serif;
+    font-size: 1.35rem;
+    color: #f4e5c3;
+    letter-spacing: 0.02em;
+  }
+
+  .portrait-role {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #d4af37;
+  }
+
+  @media (max-width: 900px) {
+    .about-shell {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .about-portrait {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .portrait-caption { justify-items: center; }
+    .section-title { max-width: none; }
+  }
+
+  @media (max-width: 768px) {
+    .about-section { padding: 5rem 1.5rem; }
+    .about-stats { grid-template-columns: 1fr; }
+  }
+</style>
