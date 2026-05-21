@@ -1,0 +1,617 @@
+---
+import '../styles/global.css';
+import { adminData } from '../data/admin';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Gents Club Admin</title>
+    <style>
+      :root {
+        --bg: #0d1016;
+        --bg-gradient-top: #141923;
+        --sidebar: #11161f;
+        --panel: #171d28;
+        --panel-2: #1c2431;
+        --line: #2b3341;
+        --text: #f3f5f7;
+        --muted: #9ca8b7;
+        --gold: #d0aa66;
+        --green: #76d39b;
+        --orange: #f5b971;
+        --red: #f29696;
+        --blue: #7dc5ff;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Montserrat", sans-serif;
+        background:
+          radial-gradient(circle at top right, rgba(125, 197, 255, 0.08), transparent 30%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-gradient-top) 100%);
+        color: var(--text);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        background: rgba(17, 22, 31, 0.92);
+        border-right: 1px solid var(--line);
+        padding: 24px 18px;
+        backdrop-filter: blur(18px);
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        margin-bottom: 8px;
+      }
+
+      .logo span { color: var(--gold); }
+
+      .logo-sub {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 24px;
+      }
+
+      .menu {
+        display: grid;
+        gap: 10px;
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 13px 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.02);
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+        cursor: pointer;
+      }
+
+      .item:hover {
+        transform: translateX(4px);
+        color: var(--text);
+        border-color: rgba(125, 197, 255, 0.28);
+        background: rgba(125, 197, 255, 0.06);
+      }
+
+      .item.active {
+        color: var(--text);
+        border-color: rgba(208, 170, 102, 0.42);
+        background: rgba(208, 170, 102, 0.08);
+      }
+
+      .item-badge {
+        display: inline-flex;
+        min-width: 28px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.05);
+        color: var(--text);
+        font-size: 0.78rem;
+      }
+
+      .main {
+        padding: 28px;
+      }
+
+      h1, h2, h3, p { margin-top: 0; }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .eyebrow {
+        color: var(--gold);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 8px;
+      }
+
+      .main h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.1;
+        margin-bottom: 0.35rem;
+      }
+
+      .lead {
+        color: var(--muted);
+        max-width: 64ch;
+        line-height: 1.7;
+      }
+
+      .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--text);
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(125, 197, 255, 0.28);
+        background: #1b2230;
+        box-shadow: var(--shadow);
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, rgba(208, 170, 102, 0.2), rgba(208, 170, 102, 0.08));
+        border-color: rgba(208, 170, 102, 0.35);
+      }
+
+      .btn.ghost {
+        color: var(--muted);
+      }
+
+      .kpis,
+      .content,
+      .cards {
+        display: grid;
+        gap: 16px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(4, 1fr);
+        margin-bottom: 20px;
+      }
+
+      .kpi,
+      .panel,
+      .chat,
+      .table,
+      .small-card {
+        background: rgba(23, 29, 40, 0.92);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .kpi {
+        padding: 18px;
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .kpi:hover {
+        transform: translateY(-3px);
+        border-color: rgba(208, 170, 102, 0.24);
+        background: #1a2230;
+      }
+
+      .kpi strong {
+        display: block;
+        font-family: "Playfair Display", serif;
+        font-size: 30px;
+        margin-bottom: 6px;
+      }
+
+      .kpi span {
+        color: var(--muted);
+      }
+
+      .content {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .panel,
+      .chat,
+      .table,
+      .small-card {
+        padding: 20px;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .chip {
+        padding: 9px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--muted);
+        font-size: 13px;
+        transition: all 180ms ease;
+        cursor: pointer;
+      }
+
+      .chip:hover,
+      .chip.active {
+        color: var(--text);
+        border-color: rgba(208, 170, 102, 0.35);
+        background: rgba(208, 170, 102, 0.08);
+      }
+
+      .chat-list,
+      .table-list,
+      .activity-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .chat-row,
+      .entry {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .chat-row:hover,
+      .entry:hover {
+        transform: translateY(-2px);
+        border-color: rgba(125, 197, 255, 0.26);
+        background: #202a38;
+      }
+
+      .row-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .row-top strong {
+        font-size: 1rem;
+      }
+
+      .muted { color: var(--muted); }
+
+      .row-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      .mini-btn {
+        padding: 7px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        font-size: 12px;
+        transition: all 180ms ease;
+        cursor: pointer;
+      }
+
+      .mini-btn:hover {
+        border-color: rgba(118, 211, 155, 0.28);
+        background: rgba(118, 211, 155, 0.08);
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .ok { color: #bfead0; background: rgba(118, 211, 155, 0.12); }
+      .warn { color: #f6d29d; background: rgba(245, 185, 113, 0.12); }
+      .err { color: #ffc7c7; background: rgba(242, 150, 150, 0.12); }
+
+      .pulse {
+        position: relative;
+        padding-left: 16px;
+      }
+
+      .pulse::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-top: -4px;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 0 0 rgba(118, 211, 155, 0.5);
+        animation: pulse 1.8s infinite;
+      }
+
+      .progress {
+        margin-top: 14px;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.05);
+        overflow: hidden;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: 78%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--gold), #f0cf95);
+        animation: shimmer 2.8s linear infinite;
+        background-size: 200% 100%;
+      }
+
+      .activity {
+        display: grid;
+        grid-template-columns: 84px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 12px 0;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .activity:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .time {
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .entry {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 16px;
+      }
+
+      .small-card {
+        transition: transform 180ms ease, border-color 180ms ease;
+      }
+
+      .small-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(125, 197, 255, 0.24);
+      }
+
+      .small-card p { color: var(--muted); }
+
+      .footer-note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(118, 211, 155, 0.45); }
+        70% { box-shadow: 0 0 0 10px rgba(118, 211, 155, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(118, 211, 155, 0); }
+      }
+
+      @keyframes shimmer {
+        from { background-position: 0% 0; }
+        to { background-position: 200% 0; }
+      }
+
+      @media (max-width: 1100px) {
+        .layout { grid-template-columns: 1fr; }
+        .sidebar {
+          position: relative;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .kpis, .content, .cards { grid-template-columns: 1fr; }
+        .entry { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 768px) {
+        .main { padding: 18px; }
+        .topbar { flex-direction: column; }
+        .top-actions { justify-content: flex-start; }
+        .row-top { flex-direction: column; align-items: flex-start; }
+        .activity { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="logo">GENT'S <span>CLUB</span></div>
+        <p class="logo-sub">Demo interna del panel para monitorear conversaciones, citas y el estado del bot.</p>
+
+        <div class="menu">
+          {adminData.sections.map((item, index) => (
+            <div class={`item ${index === 0 ? 'active' : ''}`}>
+              <span>{item}</span>
+              <span class="item-badge">{index === 0 ? 'Live' : index + 1}</span>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">{adminData.subtitle}</div>
+            <h1>{adminData.title}</h1>
+            <p class="lead">Vista base para gestionar el negocio desde una sola pantalla: clientes, agenda, conversaciones y alertas operativas.</p>
+          </div>
+          <div class="top-actions">
+            <button class="btn ghost">Ver agenda del dia</button>
+            <button class="btn">Pausar bot</button>
+            <button class="btn primary">Nueva cita manual</button>
+          </div>
+        </div>
+
+        <section class="kpis">
+          {adminData.kpis.map((kpi) => (
+            <div class="kpi">
+              <strong>{kpi.value}</strong>
+              <span>{kpi.label}</span>
+            </div>
+          ))}
+        </section>
+
+        <section class="content">
+          <div class="chat">
+            <div class="eyebrow">Inbox</div>
+            <h2>Conversaciones recientes</h2>
+            <div class="toolbar">
+              <div class="filters">
+                {adminData.inboxFilters.map((filter, index) => (
+                  <div class={`chip ${index === 0 ? 'active' : ''}`}>{filter}</div>
+                ))}
+              </div>
+              <button class="btn ghost">Buscar cliente</button>
+            </div>
+
+            <div class="chat-list">
+              {adminData.conversations.map((conversation) => (
+                <div class="chat-row">
+                  <div class="row-top">
+                    <strong>{conversation.name}</strong>
+                    <span class={`status ${conversation.status}`}>{conversation.statusLabel}</span>
+                  </div>
+                  <p class="muted">{conversation.summary}</p>
+                  <div class="row-actions">
+                    {conversation.actions.map((action) => (
+                      <button class="mini-btn">{action}</button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="eyebrow">Bot</div>
+            <h2>Estado del sistema</h2>
+            <p class="pulse">Operando y respondiendo con agenda sincronizada</p>
+            <div class="progress"><span></span></div>
+
+            <div class="chat-list">
+              {adminData.systemChecks.map((check) => (
+                <div class="chat-row">
+                  <div class="row-top">
+                    <strong>{check.label}</strong>
+                    <span class={`status ${check.status}`}>{check.statusLabel}</span>
+                  </div>
+                  {check.note && <p class="muted">{check.note}</p>}
+                </div>
+              ))}
+            </div>
+
+            <div class="activity-list">
+              {adminData.activity.map((activity) => (
+                <div class="activity">
+                  <div class="time">{activity.time}</div>
+                  <div class="muted">{activity.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="table" style="margin-top: 16px;">
+          <div class="toolbar">
+            <div>
+              <div class="eyebrow">Agenda</div>
+              <h2>Citas del dia</h2>
+            </div>
+            <div class="filters">
+              {adminData.agendaFilters.map((filter, index) => (
+                <div class={`chip ${index === 0 ? 'active' : ''}`}>{filter}</div>
+              ))}
+            </div>
+          </div>
+
+          <div class="table-list">
+            {adminData.appointments.map((appointment) => (
+              <div class="entry">
+                <strong>{appointment.customer}</strong>
+                <span>{appointment.time}</span>
+                <span>{appointment.service}</span>
+                <span class={`status ${appointment.status}`}>{appointment.statusLabel}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cards">
+          {adminData.insights.map((insight) => (
+            <div class="small-card">
+              <div class="eyebrow">{insight.eyebrow}</div>
+              <h3>{insight.title}</h3>
+              <p>{insight.text}</p>
+            </div>
+          ))}
+        </section>
+
+        <p class="footer-note">Esta pantalla ya puede usarse como base del admin real. El siguiente paso es conectar estas tarjetas y tablas a datos del bot, la agenda y los clientes.</p>
+      </main>
+    </div>
+  </body>
+</html>
