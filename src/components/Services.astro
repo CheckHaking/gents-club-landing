@@ -1,15 +1,13 @@
 ---
-import { getServices, getBusinessInfo } from '../lib/directus';
-const services = await getServices();
-const business = await getBusinessInfo();
+const { services, whatsapp } = Astro.props;
 ---
 
 <section id="services" class="services-section">
   <div class="services-inner">
     <div class="services-header">
-      <div class="section-label">Nuestros Servicios</div>
-      <h2 class="section-title">Maestría en <span class="accent">cada detalle</span></h2>
-      <p class="section-subtitle">Servicios diseñados para el caballero moderno que valora la calidad y la atención al detalle.</p>
+      <div class="section-label">Servicios</div>
+      <h2 class="section-title">Servicios esenciales de <span class="accent">barbería clásica</span></h2>
+      <p class="section-subtitle">Cuatro servicios bien hechos que cubren lo que un caballero necesita.</p>
     </div>
     <div class="services-grid">
       {services.map((service: any, index: number) => (
@@ -18,8 +16,11 @@ const business = await getBusinessInfo();
           <h3 class="service-name">{service.name}</h3>
           <p class="service-desc">{service.description}</p>
           <div class="service-bottom">
-            <span class="service-price">${service.price} <span class="currency">MXN</span></span>
-            <a href={`https://wa.me/${business.whatsapp}?text=Hola! Me interesa el servicio de ${service.name}&utm_source=landing&utm_medium=servicios&utm_campaign=gentsclub`}
+            <div class="service-meta">
+              <span class="service-price">${service.price} <span class="currency">MXN</span></span>
+              <span class="service-duration">{service.duration}</span>
+            </div>
+            <a href={`https://wa.me/${whatsapp}?text=Hola! Me interesa agendar ${encodeURIComponent(service.name)}&utm_source=landing&utm_medium=servicios&utm_campaign=gentsclub`}
                class="service-link" target="_blank" rel="noopener">
               Agendar
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -144,6 +145,18 @@ const business = await getBusinessInfo();
   .service-price {
     font-family: 'Playfair Display', serif;
     font-size: 2rem; font-weight: 700; color: #d4af37;
+  }
+
+  .service-meta {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .service-duration {
+    color: #8f8f8f;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
 
   .currency { font-size: 0.9rem; font-weight: 400; color: #707070; margin-left: 0.25rem; }

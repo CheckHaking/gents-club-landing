@@ -1,0 +1,118 @@
+---
+const { cta, whatsapp, business } = Astro.props;
+---
+
+<section id="final-cta" class="cta-section">
+  <div class="cta-glow" aria-hidden="true"></div>
+  <div class="cta-shell" data-reveal="fade">
+    <div class="cta-eyebrow">{cta.eyebrow}</div>
+    <h2 class="cta-title">{cta.title}</h2>
+    <p class="cta-subtitle">{cta.subtitle}</p>
+    <a
+      class="cta-button"
+      href={`https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, quiero agendar una cita en Gent's Club")}`}
+      target="_blank"
+      rel="noopener"
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24h-.003a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23a8.18 8.18 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/>
+      </svg>
+      {cta.button}
+    </a>
+    <p class="cta-meta">{business.weekdays} · {business.hours} · {business.city}</p>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    position: relative;
+    padding: 9rem 2rem;
+    background: linear-gradient(180deg, var(--bg-primary) 0%, #0d0b06 60%, var(--bg-primary) 100%);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .cta-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 700px;
+    height: 700px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+
+  .cta-shell {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .cta-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-title {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.06;
+    margin-bottom: 1.25rem;
+    color: var(--gold-light);
+    text-wrap: balance;
+  }
+
+  .cta-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 50ch;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.15rem 2.6rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--bg-primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 18px 50px rgba(212, 175, 55, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .cta-button svg { width: 22px; height: 22px; flex-shrink: 0; display: block; }
+
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 64px rgba(212, 175, 55, 0.4);
+  }
+
+  .cta-meta {
+    margin-top: 1.75rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .cta-section { padding: 6rem 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-button:hover { transform: none; }
+  }
+</style>

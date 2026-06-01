@@ -1,0 +1,309 @@
+---
+const { business } = Astro.props;
+
+const mapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const googlePlaceId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID ?? '';
+const embedQuery = googlePlaceId ? `place_id:${googlePlaceId}` : business.mapQuery;
+const embedSrc = mapsApiKey
+  ? `https://www.google.com/maps/embed/v1/place?key=${mapsApiKey}&q=${encodeURIComponent(embedQuery)}`
+  : '';
+---
+
+<section id="google-presence" class="presence-section">
+  <div class="presence-shell">
+    <div class="presence-header" data-reveal="fade">
+      <div class="section-label">Cómo llegar</div>
+      <h2 class="section-title">Ubicación clara, sobre el bulevar.</h2>
+      <p class="section-subtitle">
+        Estamos sobre Blvd. Miguel Alemán, con lugar para estacionarte. Abre el mapa o escríbenos por WhatsApp para indicaciones.
+      </p>
+    </div>
+
+    <div class="presence-grid">
+      <article class="presence-card map-card" data-reveal>
+        <div class="card-head">
+          <div>
+            <div class="card-label">Mapa</div>
+            <h3>Como llegar a {business.name}</h3>
+          </div>
+          <a href={business.mapsLink} target="_blank" rel="noopener" class="head-link">Abrir en Google Maps</a>
+        </div>
+
+        {embedSrc ? (
+          <iframe
+            class="map-frame"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src={embedSrc}
+            title={`Mapa de ${business.name}`}
+          ></iframe>
+        ) : (
+          <div class="map-fallback">
+            <p class="fallback-address">{business.address}</p>
+            <p class="fallback-hint">Abre la dirección en Google Maps o escríbenos por WhatsApp para recibir indicaciones.</p>
+            <div class="fallback-actions">
+              <a href={business.mapsLink} target="_blank" rel="noopener" class="btn-gold">Abrir en Google Maps</a>
+              <a href={`https://wa.me/${business.whatsapp}`} target="_blank" rel="noopener" class="fallback-link">Escribir por WhatsApp</a>
+            </div>
+          </div>
+        )}
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .presence-section {
+    padding: 8rem 2rem;
+    background:
+      radial-gradient(circle at top left, rgba(208, 170, 102, 0.08), transparent 32%),
+      linear-gradient(180deg, #090909 0%, #0f0f0f 100%);
+  }
+
+  .presence-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .presence-header {
+    max-width: 760px;
+    margin-bottom: 3rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: #d4af37;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::before,
+  .section-label::after {
+    content: '';
+    width: 25px;
+    height: 1px;
+    background: #d4af37;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.08;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    color: #b0b0b0;
+    line-height: 1.75;
+    font-size: 1rem;
+    max-width: 60ch;
+  }
+
+  .presence-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .presence-card {
+    background: linear-gradient(180deg, #151515 0%, #101010 100%);
+    border: 1px solid rgba(212, 175, 55, 0.14);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-label {
+    color: #d4af37;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-head h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin: 0;
+  }
+
+  .head-link {
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+  }
+
+  .head-link:hover {
+    border-bottom-color: currentColor;
+  }
+
+  .map-frame {
+    width: 100%;
+    min-height: 460px;
+    border: 0;
+    display: block;
+    filter: saturate(0.85) contrast(1.05);
+  }
+
+  .map-fallback {
+    min-height: 320px;
+    display: grid;
+    align-content: center;
+    gap: 1rem;
+    color: #b0b0b0;
+    line-height: 1.7;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.14);
+    padding: 2rem 1.75rem;
+    text-align: center;
+  }
+
+  .fallback-address {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: #f4e5c3;
+    line-height: 1.4;
+  }
+
+  .fallback-hint {
+    color: #b0b0b0;
+    font-size: 0.95rem;
+    max-width: 38ch;
+    margin: 0 auto;
+  }
+
+  .fallback-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .fallback-link {
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    align-self: center;
+  }
+
+  .fallback-link:hover { color: #f4e5c3; }
+
+  .amenities-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .amenity-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: flex-start;
+    gap: 0.95rem;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .amenity-item:hover {
+    border-color: rgba(212, 175, 55, 0.32);
+    transform: translateY(-1px);
+  }
+
+  .amenity-icon {
+    width: 10px;
+    height: 10px;
+    margin-top: 0.55rem;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    transform: rotate(45deg);
+  }
+
+  .amenity-body {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .amenity-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #f4e5c3;
+    line-height: 1.2;
+  }
+
+  .amenity-description {
+    margin: 0;
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  code {
+    color: #f4e5c3;
+    background: rgba(255,255,255,0.05);
+    padding: 0.12rem 0.35rem;
+    border-radius: 6px;
+  }
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0.95rem 1.5rem;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+    color: #0a0a0a;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1024px) {
+    .presence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .map-frame {
+      min-height: 360px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .presence-section {
+      padding: 5rem 1.5rem;
+    }
+
+    .card-head {
+      flex-direction: column;
+    }
+
+    .map-frame {
+      min-height: 300px;
+    }
+  }
+</style>
