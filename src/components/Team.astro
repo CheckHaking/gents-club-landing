@@ -35,11 +35,11 @@ const { team, whatsapp } = Astro.props;
             <p class="barber-specialty">{member.specialty}</p>
             <a
               class="barber-cta"
-              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hola, quiero agendar con ${member.name}`)}`}
+              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hola, quiero agendar una cita en Gent's Club.`)}`}
               target="_blank"
               rel="noopener"
             >
-              Agendar con {member.name}
+              Agendar por WhatsApp
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>

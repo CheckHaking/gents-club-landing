@@ -108,7 +108,7 @@ export const siteContent = {
     title: "Barbería clásica, trato directo y agenda simple.",
     paragraphs: [
       "En Gent's Club te atiende un equipo de seis barberos, cada uno con su especialidad y el mismo cuidado en el detalle.",
-      "Aquí no hay vueltas: revisas horario por WhatsApp, eliges barbero si quieres, confirmas tu cita y llegas a un espacio sobrio y bien cuidado."
+      "Aquí no hay vueltas: revisas horario por WhatsApp, confirmas tu cita y llegas a un espacio sobrio y bien cuidado."
     ],
     stats: [
       { label: "Años de oficio", value: "13+" },
@@ -202,7 +202,7 @@ export const siteContent = {
     badge: "Nuestro equipo",
     title: "Seis barberos. Un mismo estándar.",
     subtitle:
-      "Cada quien con su especialidad, todos con el mismo cuidado en el detalle. Agenda con quien prefieras por WhatsApp.",
+      "Cada quien con su especialidad, todos con el mismo cuidado en el detalle. Agenda tu cita por WhatsApp.",
     members: [
       {
         id: "charly",
@@ -315,7 +315,7 @@ export const siteContent = {
       },
       {
         q: "¿Con qué barbero me atienden?",
-        a: "Puedes pedir al barbero de tu preferencia al agendar. Si no tienes preferencia, te asignamos al que tenga el horario que te acomode."
+        a: "Las citas se agendan por WhatsApp y te confirmamos el horario disponible. Si prefieres a un barbero en específico del equipo, puedes pasar al local: también atendemos por orden de llegada."
       }
     ]
   },
