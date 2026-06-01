@@ -31,3 +31,14 @@ html.js [data-reveal].is-visible {
     transition: none;
   }
 }
+
+/* Candado global: ningún elemento (glows decorativos, títulos grandes) debe poder
+   ensanchar la página más allá de la pantalla en ningún dispositivo. */
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+}

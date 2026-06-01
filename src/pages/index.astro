@@ -25,6 +25,14 @@ const SITE_URL = 'https://gentsclub-gents-club-landing.eamwzl.easypanel.host/';
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <!-- Google tag (gtag.js) — Google Analytics 4 (Gent's Club Landing) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YHW5PQKYW"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4YHW5PQKYW');
+    </script>
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="description" content={`${business.name} - Barberia premium en ${business.city}. Agenda tu cita por WhatsApp con el equipo de ${business.name}.`} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
